@@ -92,7 +92,7 @@ function RingProgress({ pct }) {
 // ── Activity sparkline ───────────────────────────────────────────────────────
 function ActivityBar({ history }) {
   if (!history.length) return null;
-  const last7 = [...history].slice(-7);
+  const last7 = [...history].slice(0, 7).reverse();
   const maxT = Math.max(...last7.map(h => h.response_time), 1);
   return (
     <div className="flex items-end gap-1.5 h-12">

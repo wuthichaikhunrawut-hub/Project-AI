@@ -23,7 +23,7 @@ function ThinkingDots() {
 // ── Inline Reply Panel ───────────────────────────────────────────────────────
 function ReplyPanel({ reply, responseTime, onReset, onRefetch }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(reply);
+  const [editedText, setEditedText] = useState(reply.reply);
   const [isCopied, setIsCopied] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [reportText, setReportText] = useState('');
@@ -105,7 +105,7 @@ function ReplyPanel({ reply, responseTime, onReset, onRefetch }) {
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium transition-colors disabled:opacity-50">
                 <Check className="w-4 h-4" /> บันทึก
               </button>
-              <button onClick={() => { setIsEditing(false); setEditedText(reply); }} disabled={saving}
+              <button onClick={() => { setIsEditing(false); setEditedText(reply.reply); }} disabled={saving}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition-colors">
                 <X className="w-4 h-4" /> ยกเลิก
               </button>
@@ -180,7 +180,7 @@ function Generate() {
     setError(''); setIsLoading(true); setReply(null);
     try {
       const result = await generateReply(message);
-      setReply(result.reply);
+      setReply(result);
       setResponseTime(result.response_time);
     } catch (err) {
       setError(err.message || 'เกิดข้อผิดพลาด กรุณาลองอีกครั้ง');
