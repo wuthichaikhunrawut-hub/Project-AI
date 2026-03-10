@@ -4,7 +4,7 @@ A full-stack MVP system that uses AI to generate professional email replies for 
 
 ## Features
 
-- **AI-Powered Reply Generation**: Uses Google Gemini API to generate professional email responses
+- **AI-Powered Reply Generation**: Uses Groq API (Llama3) via Google Colab + Gradio to generate professional email responses
 - **History Dashboard**: View all generated replies with response times
 - **Human-in-the-Loop**: Edit AI responses or report incorrect ones
 - **KPI Tracking**: Monitor total requests, average response time, and edited replies
@@ -14,13 +14,14 @@ A full-stack MVP system that uses AI to generate professional email replies for 
 - **Frontend**: React + Vite + TailwindCSS
 - **Backend**: Node.js + Express.js
 - **Database**: PostgreSQL (Supabase)
-- **AI**: Google Gemini API
+- **AI**: Groq API (Llama3) served via Google Colab + Gradio
 
 ## Prerequisites
 
 1. Node.js (v18 or higher)
 2. Supabase account (for PostgreSQL database)
-3. Google Gemini API key
+3. Groq API key
+4. Google Colab notebook running the Gradio AI server
 
 ## Setup Instructions
 
@@ -43,23 +44,28 @@ Create a `.env` file in the `backend` directory:
 # Database URL from Supabase
 DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.[YOUR-PROJECT].supabase.co:5432/postgres
 
-# Google Gemini API Key
-GEMINI_API_KEY=your-gemini-api-key-here
+# Colab + Gradio AI Server URL
+COLAB_AI_URL=https://your-gradio-url.gradio.live/
 
 # Server Port (optional)
 PORT=3001
 ```
 
 To get your Supabase connection string:
+
 1. Go to Supabase Dashboard
 2. Navigate to Settings > Database
 3. Find "Connection string" section
 4. Copy the URI and replace `[YOUR-PASSWORD]` with your database password
 
-To get your Gemini API key: ==> เปลี่ยนมาใช้ API KEY จาก Qroq และ Colab
-1. Go to Google AI Studio (https://aistudio.google.com/app/apikey)
-2. Create a new API key
-3. Copy the key to your .env file 
+To get the Colab AI URL:
+
+1. Open the provided Google Colab notebook
+2. Install dependencies and run all cells
+3. Colab will display a public Gradio URL (e.g. `https://xxxx.gradio.live`)
+4. Copy that URL into your `.env` file as `COLAB_AI_URL`
+
+> **Note**: The Gradio URL expires after ~72 hours. Re-run the Colab notebook to get a new URL.
 
 ### 3. Frontend Setup
 
@@ -87,6 +93,7 @@ npm run dev
 ### 5. Access the Application
 
 Open your browser and navigate to:
+
 - Frontend: http://localhost:5173
 - Backend API: http://localhost:3001/api/health
 
@@ -97,11 +104,11 @@ ai-email-reply-assistant/
 ├── backend/
 │   ├── server.js          # Express server
 │   ├── db.js              # Database connection
-│   ├── gemini.js          # Gemini API service
+│   ├── gemini.js          # AI service (Colab + Gradio client)
 │   ├── routes/
 │   │   ├── generate.js    # POST /api/generate
 │   │   ├── history.js     # GET /api/history
-│   │   └── feedback.js   # PUT /api/feedback/:id
+│   │   └── feedback.js    # PUT /api/feedback/:id
 │   ├── package.json
 │   └── .env.example
 ├── frontend/
@@ -131,6 +138,7 @@ ai-email-reply-assistant/
 Generate an AI email reply.
 
 **Request:**
+
 ```json
 {
   "message": "Customer message here..."
@@ -138,6 +146,7 @@ Generate an AI email reply.
 ```
 
 **Response:**
+
 ```json
 {
   "id": 1,
@@ -151,6 +160,7 @@ Generate an AI email reply.
 Get all generated replies.
 
 **Response:**
+
 ```json
 {
   "history": [
@@ -173,6 +183,7 @@ Get all generated replies.
 Update a reply with human feedback.
 
 **Request:**
+
 ```json
 {
   "edited_reply": "Edited reply...",
@@ -195,28 +206,33 @@ MIT
 ## Team Contribution Log
 
 ### วุฒิชัย
+
 - Designed system architecture
 - Developed backend (Node.js + Express)
 - Integrated Supabase database
-- Implemented AI integration (Colab + Llama3)
+- Implemented AI integration (Colab + Llama3 via Groq)
 - Developed core API endpoints
 
-### ศิริลักษณ 2
+### ศิริลักษณ์
+
 - Developed frontend UI using React and TailwindCSS
 - Implemented Generate Reply page
 - Assisted with UI testing
 
-### อิทธิภากร 
+### อิทธิภากร
+
 - Designed dashboard layout
 - Assisted with frontend styling
 - Performed system testing
 
-### เปมิกา 
+### เปมิกา
+
 - Prepared presentation slides
 - Wrote project documentation
 - Assisted with report preparation
 
-### กรรณิการ์ 
+### กรรณิการ์
+
 - Helped with testing and debugging
 - Assisted with system demonstration
 - Prepared demo materials
